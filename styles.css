@@ -1,0 +1,21 @@
+
+body {
+  background-color: gainsboro;  
+}
+.images {
+  margin-top: 20px;
+}
+
+img, canvas {
+  width: 50vw;
+  /* height: 90vh; */
+  object-fit: scale-down;
+  margin-bottom: 5vh;
+  margin-right: 1vh;
+}
+
+
+.image_and_code {
+  display: flex;
+  flex-direction: row;
+}

@@ -1,7 +1,179 @@
 
 <!DOCTYPE html>
 <html lang="en">
+<head>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/base16/zenburn.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script>
+<!-- and it's easy to individually load additional languages -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/languages/javascript.min.js"></script>
+</head>
 <body>
-  <img src="sketches/2022.04.18-10.33.49.png">
+  <div class="images">
+    <div class="image_and_code">
+      <img src="sketches/Retro Sinus Gradient 1.png">
+      <pre><code>const canvasSketch = require('canvas-sketch');
+const random = require('canvas-sketch-util/random')
+const settings = {
+  dimensions: [ 2048, 2048 ]
+};
+
+const sketch = () => {
+  return ({ context, width, height }) => {
+    context.fillStyle = "#513B41";
+    context.fillRect(0, 0, width, height);
+
+    var y = 400
+    var step = 200
+    var colors = ["#E6956C",
+    "#E4D595",
+    "#F8F2DD",
+    "#D282A4",
+    "#8762A6",
+    "#8762F6",
+    "#8743F6"]
+    
+    for(i = 0; i < 5; i++){
+      context.save();
+      y_line = y+i*step
+      x_line = 0
+      context.translate(x_line, y_line);
+    
+      context.lineWidth = 100;
+      context.beginPath();
+    
+      var grd = context.createLinearGradient(0, 0, 0, 700);
+      grd.addColorStop(0, colors[i]);
+      grd.addColorStop(1, colors[(i+1)%colors.length]);
+      context.fillStyle = grd;
+      amp = random.range(50, 100);
+      freq = random.range(50, 100);
+      while(x_line < width){
+        y_line = (amp/1.6) * Math.sin(x_line/(freq));
+        context.fillRect(x_line, y_line, 1, 350);
+        x_line+=1;
+      }
+      context.stroke();
+      context.restore();
+    }
+  };
+};
+
+canvasSketch(sketch, settings);
+        </code></pre>>
+    </div>
+    <div class="image_and_code">
+      <img src="sketches/Retro Sinus Gradient 2.png">
+      <code>Lorem Ipsum</code>
+      </div>
+    <div class="image_and_code">
+      <img src="sketches/Retro Sinus.png">
+      <code>Lorem Ipsum</code>
+      </div>
+    <div class="image_and_code">
+      <img src="sketches/Sharp Ribbons.png">
+      <code>Lorem Ipsum</code>
+      </div>
+    <div class="image_and_code">
+      <img src="sketches/Squares.png">
+      <code>Lorem Ipsum</code>
+      </div>
+    <div class="image_and_code">
+      <img src="sketches/Tutorial.png">
+      <code>Lorem Ipsum</code>
+      </div>
+    <div class="image_and_code">
+      <img src="sketches/Tutorial 2.png">
+      <code>Lorem Ipsum</code>
+      </div>
+  </div>
+  <div class="image_and_code">
+    <canvas id="e1" width="600" height="600"></canvas>
+    <script>
+        let canvas = document.querySelector("#e1");
+        let context = canvas.getContext("2d");
+        context.fillStyle = "white"
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        context.lineWidth=5;
+        context.beginPath();
+        context.rect(150,150, 100, 100);
+        context.stroke();
+        context.beginPath;
+        context.arc(300, 300, 100, 0, Math.PI*2, 0);
+        context.stroke();            
+        let multiply = (a, b) => {
+            return a*b;
+        }
+    </script>
+    <pre><code>context.fillStyle = "white"
+context.fillRect(0, 0, canvas.width, canvas.height);
+context.lineWidth=5;
+context.beginPath();
+context.rect(150,150, 100, 100);
+context.stroke();
+context.beginPath;
+context.arc(300, 300, 100, 0, Math.PI*2, 0);
+context.stroke();            
+let multiply = (a, b) => {
+    return a*b;
+}
+</code></pre>
+  </div>
+  <div class="image_and_code">
+    <canvas id="e2" width="600" height="600"></canvas>
+    <script>
+      canvas = document.querySelector("#e2");
+      context = canvas.getContext("2d")
+      context.fillStyle ="black";
+      context.fillRect(0,0,canvas.width, canvas.height)
+      context.lineWidth = canvas.width * 0.005
+      context.strokeStyle = "white"
+      const w = canvas.width * 0.10;
+      const h = canvas.height * 0.10;
+      const gap = canvas.width * 0.056;
+      const off = 16
+      let x, y;
+      for (let i = 0; i < 5; i++) {
+          for (let j = 0; j<5; j++) {
+              x = 100 + (w+gap)*i;
+              y = 100 + (h+gap)*j;
+              context.beginPath();
+              context.rect(x, y, w,h);
+              context.stroke();
+              if (Math.random() > 0.5) {
+                  context.beginPath();
+                  context.rect(x+off, y+off, w-16, h-16);
+                  context.stroke();
+              }
+          }
+      }
+    </script>
+    <pre><code>context.fillStyle ="black";
+context.fillRect(0,0,canvas.width, canvas.height)
+context.lineWidth = canvas.width * 0.005
+context.strokeStyle = "white"
+const w = canvas.width * 0.10;
+const h = canvas.height * 0.10;
+const gap = canvas.width * 0.056;
+const off = 16
+let x, y;
+for (let i = 0; i < 5; i++) {
+    for (let j = 0; j<5; j++) {
+        x = 100 + (w+gap)*i;
+        y = 100 + (h+gap)*j;
+        context.beginPath();
+        context.rect(x, y, w,h);
+        context.stroke();
+        if (Math.random() > 0.5) {
+            context.beginPath();
+            context.rect(x+off, y+off, w-16, h-16);
+            context.stroke();
+        }
+    }
+}
+    </code>
+    </pre>
+  </div>
 </body>
 </html>
+<script>hljs.highlightAll();</script>
