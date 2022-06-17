@@ -1,6 +1,6 @@
 
 body {
-  background-color: #383838;  
+  background-color: #383838;
 }
 
 .fcol-wide {
@@ -14,20 +14,15 @@ body {
   text-align: left;
 }
 
-/* pre code {
-  max-width: 100%;
-  width: 30vw;
-} */
-
-img {
+img, video, canvas {
  max-width: 800px;
  max-height: 90vh;
  width: 100%;
  float: right;
 }
 
+
 .image_and_code_row {
-  /* border: 2px red solid; */
   display: flex;
   flex-direction: row;
   margin-bottom: 10vh;
