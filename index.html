@@ -19,106 +19,109 @@
   <div class="images">
     <div class="image_and_code_row">
       <div class="fcol-wide">
-        <canvas id="e1" width="600" height="600"></canvas>
+        <canvas id="squareholes" width="600" height="600"></canvas>
         <script>
-          canvas = document.querySelector("#e1");
+          canvas = document.querySelector("#squareholes");
           context = canvas.getContext("2d");
-          context.fillStyle = "white"
-          context.fillRect(0, 0, 600, 600);
-          context.lineWidth = 5;
-          context.beginPath();
-          context.rect(150, 150, 100, 100);
-          context.stroke();
-          context.beginPath;
-          context.arc(300, 300, 100, 0, Math.PI * 2, 0);
-          context.stroke();
-        </script>
-      </div>
-      <div class="fcol-narrow">
-        <pre><code>context.fillStyle = "white"
-context.fillRect(0, 0, canvas.width, canvas.height);
-context.lineWidth=5;
-context.beginPath();
-context.rect(150,150, 100, 100);
-context.stroke();
-context.beginPath;
-context.arc(300, 300, 100, 0, Math.PI*2, 0);
-context.stroke();            
-  </code></pre>
-      </div>
-    </div>
-    <div class="image_and_code_row">
-      <div class="fcol-wide">
-        <canvas id="e2" width="600" height="600"></canvas>
-        <script>
-          canvas = document.querySelector("#e2");
-          context = canvas.getContext("2d")
-          context.fillStyle = "black";
-          context.fillRect(0, 0, canvas.width, canvas.height)
-          context.lineWidth = canvas.width * 0.005
-          context.strokeStyle = "white"
-          const w = canvas.width * 0.10;
-          const h = canvas.height * 0.10;
-          const gap = canvas.width * 0.056;
-          const off = 16
+          let r = 115;
+          let g = 169;
+          let b = 194;
+          let step = canvas.width*0.01;
+          let depth = 9;
+          let colorStep = 2;
+          let color = `rgb(${r},${g},${b})`;
+          let rows = 7;
+          let cols = 7;
+          let squareWidth = canvas.width / cols;
+          let squareHeight = canvas.height / rows;
           
-          for (let i = 0; i < 5; i++) {
-            for (let j = 0; j < 5; j++) {
-              x = 100 + (w + gap) * i;
-              y = 100 + (h + gap) * j;
-              context.beginPath();
-              context.rect(x, y, w, h);
-              context.stroke();
-              if (Math.random() > 0.5) {
-                context.beginPath();
-                context.rect(x + off, y + off, w - 16, h - 16);
-                context.stroke();
-              }
+          context.fillStyle = color;
+          context.fillRect(0, 0, canvas.width, canvas.height);
+          dir = -1;
+          for (n = 0; n < rows; n++){ // Draw vertical line
+            dir*=-1;
+            drawHole(context, canvas.width/2-squareWidth/2, n*squareHeight, dir);
+          }
+          for (n = 0; n < rows; n++){ // Draw horizontal line
+            dir*=-1;
+            drawHole(context, n*squareWidth, canvas.height/2-squareHeight/2, dir);
+          }
+          for (n = 0; n < rows; n++){ // Draw diagonal lines
+            dir*=-1;
+            drawHole(context, n*squareWidth, n*squareHeight, dir)
+            drawHole(context, n*squareWidth, canvas.height-squareHeight - n*squareHeight, dir)
+          }
+
+          function drawHole(context, x, y, direction) {
+            context.save();
+            context.translate(x, y);
+            
+            for (i = 1; i < depth; i++){
+              context.save();
+              context.translate(i*step, i*step);
+              let innerSquareWidth = squareWidth - i*step*2; 
+              let innerSquareHeight = squareHeight -i*step*2;
+              let tr = r+step*i*direction*colorStep;
+              let tg = g+step*i*direction*colorStep;
+              let tb = b+step*i*direction*colorStep;
+              let tcolor = `rgb(${tr},${tg},${tb})`;
+              context.fillStyle = tcolor;
+              context.fillRect(0, 0, innerSquareWidth, innerSquareHeight);
+              context.restore();
             }
+            context.restore();
           }
         </script>
       </div>
       <div class="fcol-narrow">
-        <pre><code>context.fillStyle ="black";
-context.fillRect(0,0,canvas.width, canvas.height)
-context.lineWidth = canvas.width * 0.005
-context.strokeStyle = "white"
-const w = canvas.width * 0.10;
-const h = canvas.height * 0.10;
-const gap = canvas.width * 0.056;
-const off = 16
-let x, y;
-for (let i = 0; i < 5; i++) {
-    for (let j = 0; j<5; j++) {
-        x = 100 + (w+gap)*i;
-        y = 100 + (h+gap)*j;
-        context.beginPath();
-        context.rect(x, y, w,h);
-        context.stroke();
-        if (Math.random() > 0.5) {
-            context.beginPath();
-            context.rect(x+off, y+off, w-16, h-16);
-            context.stroke();
-        }
-    }
+        <pre><code>let r = 115;
+let g = 169;
+let b = 194;
+let step = canvas.width*0.01;
+let depth = 9;
+let colorStep = 2;
+let color = `rgb(${r},${g},${b})`;
+let rows = 7;
+let cols = 7;
+let squareWidth = canvas.width / cols;
+let squareHeight = canvas.height / rows;
+
+context.fillStyle = color;
+context.fillRect(0, 0, canvas.width, canvas.height);
+dir = -1;
+for (n = 0; n < rows; n++){ // Draw vertical line
+  dir*=-1;
+  drawHole(context, canvas.width/2-squareWidth/2, n*squareHeight, dir);
+}
+for (n = 0; n < rows; n++){ // Draw horizontal line
+  dir*=-1;
+  drawHole(context, n*squareWidth, canvas.height/2-squareHeight/2, dir);
+}
+for (n = 0; n < rows; n++){ // Draw diagonal lines
+  dir*=-1;
+  drawHole(context, n*squareWidth, n*squareHeight, dir)
+  drawHole(context, n*squareWidth, canvas.height-squareHeight - n*squareHeight, dir)
+}
+
+function drawHole(context, x, y, direction) {
+  context.save();
+  context.translate(x, y);
+  
+  for (i = 1; i < depth; i++){
+    context.save();
+    context.translate(i*step, i*step);
+    let innerSquareWidth = squareWidth - i*step*2; 
+    let innerSquareHeight = squareHeight -i*step*2;
+    let tr = r+step*i*direction*colorStep;
+    let tg = g+step*i*direction*colorStep;
+    let tb = b+step*i*direction*colorStep;
+    let tcolor = `rgb(${tr},${tg},${tb})`;
+    context.fillStyle = tcolor;
+    context.fillRect(0, 0, innerSquareWidth, innerSquareHeight);
+    context.restore();
+  }
+  context.restore();
 }</code></pre>
-      </div>
-    </div>
-    <div class="image_and_code_row">
-      <div class="fcol-wide">
-        <canvas id="test" width="600" height="600"></canvas>
-        <script>
-          canvas = document.querySelector("#test");
-          context = canvas.getContext("2d")
-          context.fillStyle = "lightblue";
-          context.fillRect(0, 0, canvas.width, canvas.height)
-          context.translate(40,40);
-          context.fillStyle = "blue"
-          context.fillRect(0,0, 100, 60);
-        </script>
-      </div>
-      <div class="fcol-narrow">
-        <pre><code>context.fillStyle ="black";</code></pre>
       </div>
     </div>
     <div class="image_and_code_row">
@@ -175,7 +178,8 @@ for(i = 0; i < 5; i++){
   }
   context.stroke();
   context.restore();
-}</code></pre>
+}
+</code></pre>
       </div>
     </div>
     <div class="image_and_code_row">
@@ -243,45 +247,98 @@ for(i = 0; i < 5; i++){
     </div>
     <div class="image_and_code_row">
       <div class="fcol-wide">
-        <script src=src/retroWavesGradient.js></script>
+        <iframe src="src/04/04-inline.html" height="600" width="600"></iframe>
       </div>
       <div class="fcol-narrow">
-        <code>Lorem Ipsum</code>
+        <pre><code>const cols = params.cols; // 140 was cool!
+const rows = params.rows;
+const numCells = cols*rows;
+
+const gridw = width * 0.8;
+const gridh = height * 0.8;
+const cellw = gridw / cols;
+const cellh = gridh / rows;
+const margx = (width - gridw) * 0.5;
+const margy = (height - gridh) * 0.5;
+
+for (let i = 0; i < numCells; i++){
+  const col = i % cols;
+  const row = Math.floor(i / cols);
+
+  const x = col * cellw;
+  const y = row * cellh;
+  const w = cellw * 0.8;
+  const h = cellh * 0.8;
+  const f = params.animate ? frame : params.frame;
+  const n = random.noise3D(x, y, f*10, params.freq);
+  const angle = n * Math.PI*params.amp;
+  const scale = math.mapRange(n, -1, 1, params.scaleMin, params.scaleMax);
+
+  cv1 = Math.abs(angle*250);
+  cv2 = Math.abs(n*250%250);
+  color = "black";
+  console.log(Math.abs(angle*250%250))
+  context.save();
+  context.translate(x, y);
+  context.translate(margx, margy);
+  context.translate(cellw*0.5, cellh*0.5);
+  context.rotate(angle);
+  context.lineWidth = scale;
+  context.lineCap = params.lineCap;
+  context.beginPath();
+  context.moveTo(w*-0.5, 0);
+  context.lineTo(w*0.5,0);
+  context.strokeStyle = color;
+  context.stroke();
+  context.restore();
+}</code></pre>
       </div>
     </div>
     <div class="image_and_code_row">
       <div class="fcol-wide">
-        <img src="sketches/Sharp Ribbons.png">
+        <iframe src="src/03-inline.html" height="600" width="600"></iframe>
       </div>
       <div class="fcol-narrow">
-        <code>Lorem Ipsum</code>
-      </div>
-    </div>
-    <div class="image_and_code_row">
-      <div class="fcol-wide">
-        <img src="sketches/Squares.png">
-      </div>
-      <div class="fcol-narrow">
-        <code>Lorem Ipsum</code>
-      </div>
-    </div>
-    <div class="image_and_code_row">
-      <div class="fcol-wide">
-        <img src="sketches/Tutorial.png">
-      </div>
-      <div class="fcol-narrow">
-        <code>Lorem Ipsum</code>
-      </div>
-    </div>
-    <div class="image_and_code_row">
-      <div class="fcol-wide">
-        <video width="600" height="600" autoplay muted>
-          <source src="sketches/Moving Connections.mp4" type="video/mp4">
-          No support in this browser.
-        </video>
-      </div>
-      <div class="fcol-narrow">
-        <pre></pre><code>Lorem Ipsum</code>
+        <pre><code>
+const sketch = ({ context, width, height }) => {
+  const agents = [];
+  for(let i = 0; i<100; i++){
+    const x = random.range(0, width);
+    const y = random.range(0, height);
+    agents.push(new Agent(x, y, i))
+  }
+  return ({ context, width, height }) => {
+    context.fillStyle = 'white';
+    context.fillRect(0, 0, width, height);
+    
+    for (let i = 0; i < agents.length; i++){
+      
+      const agent = agents[i];
+      
+      for (let j = i+1; j < agents.length; j++){
+        const other = agents[j];
+        const dist = agent.pos.getDistance(other.pos);
+        if (dist < 10) agent.bounceXY();
+        if (dist > 200) continue;
+        //radius = (agent.radius > other.radius) ? other.radius : agent.radius;
+        radius = Math.min(agent.radius, other.radius);
+        context.lineWidth = math.mapRange(dist, 0, 200, radius*2, 0.01);
+        context.beginPath();
+        context.strokeStyle = agent.color;
+        context.moveTo(agent.pos.x, agent.pos.y);
+        context.lineTo(other.pos.x, other.pos.y);
+        context.stroke();
+      }
+    }
+
+    agents.forEach(agent => {
+      agent.update();
+      agent.draw(context)
+      agent.bounce(width, height);
+    });
+  };
+};
+        </code></pre>
       </div>
     </div>
     <div class="image_and_code_row">
@@ -330,11 +387,11 @@ for(i = 0; i < 5; i++){
           context.fillRect(0, 0, canvas.width, canvas.height)
           context.lineWidth = canvas.width * 0.005
           context.strokeStyle = "white"
-          const w = canvas.width * 0.10;
-          const h = canvas.height * 0.10;
-          const gap = canvas.width * 0.056;
-          const off = 16
-          let x, y;
+          let w = canvas.width * 0.10;
+          let h = canvas.height * 0.10;
+          let gap = canvas.width * 0.056;
+          let off = 16
+          
           for (let i = 0; i < 5; i++) {
             for (let j = 0; j < 5; j++) {
               x = 100 + (w + gap) * i;
@@ -353,28 +410,28 @@ for(i = 0; i < 5; i++){
       </div>
       <div class="fcol-narrow">
         <pre><code>context.fillStyle ="black";
-    context.fillRect(0,0,canvas.width, canvas.height)
-    context.lineWidth = canvas.width * 0.005
-    context.strokeStyle = "white"
-    const w = canvas.width * 0.10;
-    const h = canvas.height * 0.10;
-    const gap = canvas.width * 0.056;
-    const off = 16
-    let x, y;
-    for (let i = 0; i < 5; i++) {
-        for (let j = 0; j<5; j++) {
-            x = 100 + (w+gap)*i;
-            y = 100 + (h+gap)*j;
+context.fillRect(0,0,canvas.width, canvas.height)
+context.lineWidth = canvas.width * 0.005
+context.strokeStyle = "white"
+const w = canvas.width * 0.10;
+const h = canvas.height * 0.10;
+const gap = canvas.width * 0.056;
+const off = 16
+let x, y;
+for (let i = 0; i < 5; i++) {
+    for (let j = 0; j<5; j++) {
+        x = 100 + (w+gap)*i;
+        y = 100 + (h+gap)*j;
+        context.beginPath();
+        context.rect(x, y, w,h);
+        context.stroke();
+        if (Math.random() > 0.5) {
             context.beginPath();
-            context.rect(x, y, w,h);
+            context.rect(x+off, y+off, w-16, h-16);
             context.stroke();
-            if (Math.random() > 0.5) {
-                context.beginPath();
-                context.rect(x+off, y+off, w-16, h-16);
-                context.stroke();
-            }
         }
-    }</code></pre>
+    }
+}</code></pre>
       </div>
     </div>
 </div>
